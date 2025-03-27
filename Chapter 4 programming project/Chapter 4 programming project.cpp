@@ -1,46 +1,58 @@
 #include <iostream>
 using namespace std;
 
-// Function to check if a year is a leap year
-bool isLeapYear(int year) {
-	// Leap year logic based on rules provided
-	if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-		return true;
+// Function to calculate the shipping charge based on weight and distance
+double calculateCharge(double weight, double distance) {
+	double rate;
+
+	// Determine the rate per 500 miles based on the weight of the package
+	if (weight <= 2.0) {
+		rate = 1.10;
 	}
-	return false;
-}
-
-// Function to returnthe number of days in a given month
-int daysInMonth(int month, int year) {
-	// Array containing the number of days for each month in a non-leap year
-	int daysInMonthArray[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-	// If it's February and it's a leap year. return 29 days
-	if (month == 2 && isLeapYear(year)) {
-		return 29;
+	else if (weight <= 6.0) {
+		rate = 2.20;
+	}
+	else if (weight <= 10.0) {
+		rate = 3.70;
+	}
+	else if (weight <= 20.0) {
+		rate = 4.80;
+	}
+	else {
+		return 0.0; // This should not occur because of input validation
 	}
 
-	return daysInMonthArray[month - 1];
+	// Calculate the total charge based on the distance
+	double totalCharge = (distance / 500) * rate;
+	return totalCharge;
 }
 
 int main() {
-	int month, year;
+	double weight, distance;
 
-	// Input validation for month
+	// Input validation for weight
 	do {
-		cout << "Enter a month (1-12): ";
-		cin >> month;
-		if (month < 1 || month > 12) {
-			cout << "Invalid month! Please enter a number between 1 and 12.\n";
+		cout << "Enter the weight of the package (greater than 0 and less than or equal to 20 kg): ";
+		cin >> weight;
+		if (weight <= 0 || weight > 20) {
+			cout << "Invalid weight! Please enter a weight greater than 0 and less than or equal to 20 kg.\n";
 		}
-	} while(month < 1 || month > 12);
+	} while (weight <= 0 || weight > 20);
 
-	// Input for year
-	cout << "Enter a year: ";
-	cin >> year;
+	// Input validation for distance
+	do {
+		cout << "Enter the distance to be shipped (between 10 and 3000 miles): ";
+		cin >> distance;
+		if (distance < 10 || distance > 3000) {
+			cout << "Invalid distance! Please enter a distance between 10 and 3000 miles.\n";
+		}
+	} while (distance < 10 || distance > 3000);
 
-	// Output the number of days in the specified month
-	cout << daysInMonth(month, year) << " days\n";
+	// Call the function to calculate the charge
+	double totalCharge = calculateCharge(weight, distance);
+
+	// Display the charge
+	cout << "The shipping charge is: $" << totalCharge << endl;
 
 	return 0;
 }
