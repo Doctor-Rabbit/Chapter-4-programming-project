@@ -1,46 +1,73 @@
 #include <iostream>
 using namespace std;
 
-// Function to check if a year is a leap year
-bool isLeapYear(int year) {
-	// Leap year logic based on rules provided
-	if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-		return true;
-	}
-	return false;
+// Function to calculate the area of a circle
+double calculateCircleArea(double radius) {
+	const double PI = 3.14159;
+	return PI * radius * radius;
 }
 
-// Function to returnthe number of days in a given month
-int daysInMonth(int month, int year) {
-	// Array containing the number of days for each month in a non-leap year
-	int daysInMonthArray[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+// Function to calculate the area of a rectangle
+double calculateRectangleArea(double length, double width) {
+	return length * width;
+}
 
-	// If it's February and it's a leap year. return 29 days
-	if (month == 2 && isLeapYear(year)) {
-		return 29;
-	}
+// Function to calculate the area of a triangle
+double calculateTriangleArea(double base, double height) {
+	return 0.5 * base * height;
+}
 
-	return daysInMonthArray[month - 1];
+// Function to get a positive value from the user
+double getPositiveInput(const string& prompt) {
+	double value;
+	do {
+		cout << prompt;
+		cin >> value;
+		if (value <= 0) {
+			cout << "Error: Please enter a positive value.\n";
+		}
+	} while (value <= 0);
+	return value;
 }
 
 int main() {
-	int month, year;
-
-	// Input validation for month
+	int choice;
 	do {
-		cout << "Enter a month (1-12): ";
-		cin >> month;
-		if (month < 1 || month > 12) {
-			cout << "Invalid month! Please enter a number between 1 and 12.\n";
+		// Display Menu
+		cout << "Geometry Calculator\n";
+		cout << "1. Calculate the Area of a Circle\n";
+		cout << "2. Calculate the Area of a Rectangle\n";
+		cout << "3. Calculate the Area of a Triangle\n";
+		cout << "4. Quit\n";
+		cout << "Enter your choice (1-4): ";
+		cin >> choice;
+
+		if (choice == 1) {
+			// Calculate area of a circle
+			double radius = getPositiveInput("Enter the raduis of the circle: ");
+			double area = calculateCircleArea(radius);
+			cout << "The area of the circle is: " << area << endl;
 		}
-	} while(month < 1 || month > 12);
-
-	// Input for year
-	cout << "Enter a year: ";
-	cin >> year;
-
-	// Output the number of days in the specified month
-	cout << daysInMonth(month, year) << " days\n";
-
+		else if (choice == 2) {
+			// Calculate area of a rectangle
+			double length = getPositiveInput("Enter the length of a rectangle: ");
+			double width = getPositiveInput("Enter the width of the rectangle: ");
+			double area = calculateRectangleArea(length, width);
+			cout << "The area of a rectangle is: " << area << endl;
+		}
+		else if (choice == 3) {
+			// Calculate area of a triangle
+			double base = getPositiveInput("Enter the base of the triangle: ");
+			double height = getPositiveInput("Enter the height of the triangle: ");
+			double area = calculateTriangleArea(base, height);
+			cout << "The area of the triangle is: " << area << endl;
+		}
+		else if (choice == 4) {
+			cout << "Exiting the program.\n";
+		}
+		else {
+			cout << "Error: Invalid choice. Please enter a number between 1 and 4.\n";
+		}
+	} while (choice != 4);
 	return 0;
 }
